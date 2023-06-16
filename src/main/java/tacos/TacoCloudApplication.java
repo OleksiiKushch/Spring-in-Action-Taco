@@ -3,7 +3,6 @@ package tacos;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import tacos.model.Ingredient;
 import tacos.repository.IngredientRepository;
@@ -12,7 +11,7 @@ import tacos.repository.IngredientRepository;
 public class TacoCloudApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(TacoCloudApplication.class, args);
+        SpringApplication.run(TacoCloudApplication.class, args);
     }
 
     @Bean

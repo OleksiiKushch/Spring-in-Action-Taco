@@ -1,5 +1,6 @@
 package tacos.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,9 @@ import javax.validation.Valid;
 @SessionAttributes ("tacoOrder")
 public class OrderController {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
+    @Autowired
     public OrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -32,13 +34,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
+    public String processOrder(@Valid TacoOrder tacoOrder, Errors errors, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
 
-        orderRepository.save(order);
-        log.info("Order successfully saved and submitted: {}", order);
+        orderRepository.save(tacoOrder);
+        log.info("Order successfully saved and submitted: {}", tacoOrder);
         sessionStatus.setComplete();
 
         return "redirect:/";
