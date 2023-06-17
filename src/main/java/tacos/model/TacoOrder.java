@@ -1,30 +1,28 @@
 package tacos.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import com.datastax.oss.driver.api.core.uuid.Uuids;
 import lombok.Data;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
-import tacos.udt.TacoUDT;
-import tacos.udt.util.UDTUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Data
-@Table ("orders")
-public class TacoOrder {
+@Document  (collection = "tacoOrders")
+public class TacoOrder implements Serializable {
 
-    @PrimaryKey
-    private UUID id = Uuids.timeBased();
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id;
 
     @NotBlank (message = "Delivery name is required")
     private String deliveryName;
@@ -52,10 +50,9 @@ public class TacoOrder {
 
     private Date placedAt = new Date();
 
-    @Column ("tacos")
-    private List<TacoUDT> tacos = new ArrayList<>();
+    private List<Taco> tacos = new ArrayList<>();
 
     public void addTaco(Taco taco) {
-        this.tacos.add(UDTUtils.toTacoUDT(taco));
+        tacos.add(taco);
     }
 }

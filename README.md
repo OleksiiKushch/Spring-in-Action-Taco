@@ -1,10 +1,11 @@
 Test project "Taco" (Walls C. Spring in Action 6ed 2022)
 
-docker network create cassandra-net
-docker run --name my-cassandra --network cassandra-net -p 9042:9042 -d cassandra:latest
+docker run --name my-mongo -p 27017:27017 -d mongo:latest
 
-docker run -it --network cassandra-net --rm cassandra cqlsh my-cassandra
+docker exec -it my-mongo bash
+mongosh
 
-create keyspace tacocloud
-    with replication={'class':'SimpleStrategy', 'replication_factor':1}
-    and durable_writes=true;
+use tacoclouddb
+db.ingredients.find()
+db.tacoOrders.find()
+
