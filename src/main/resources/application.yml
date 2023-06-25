@@ -7,3 +7,4 @@ spring:
   data:
     mongodb:
       database: tacoclouddb
+      auto-index-creation: true

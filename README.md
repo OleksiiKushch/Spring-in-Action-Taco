@@ -6,6 +6,9 @@ docker exec -it my-mongo bash
 mongosh
 
 use tacoclouddb
+
 db.ingredients.find()
 db.tacoOrders.find()
+db.users.find()
+db.tacos.find()
 

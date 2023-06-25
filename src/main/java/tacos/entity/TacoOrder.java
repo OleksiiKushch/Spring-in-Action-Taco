@@ -1,4 +1,4 @@
-package tacos.model;
+package tacos.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,9 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Data
-@Document  (collection = "tacoOrders")
+@Document (collection = "tacoOrders")
 public class TacoOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +51,9 @@ public class TacoOrder implements Serializable {
 
     private Date placedAt = new Date();
 
+    private User user;
+
+    @Size (min = 1, message = "You must put at least 1 taco")
     private List<Taco> tacos = new ArrayList<>();
 
     public void addTaco(Taco taco) {

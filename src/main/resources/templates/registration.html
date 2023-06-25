@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/general.html :: headerfiles"></th:block>
+</head>
+
+<body>
+
+<div th:replace="fragments/general.html :: header"></div>
+
+<h1>Registration</h1>
+
+<form id="registrationForm" th:action="@{/registration}" th:object="${registrationForm}" method="POST">
+
+    <span class="validationError" th:if="${!#fields.allErrors().isEmpty()}">Please correct the problems below and resubmit.</span>
+    <br/>
+
+    <label for="username">Username: </label>
+    <input id="username" type="text" name="username" th:field="*{username}"/>
+    <span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</span>
+    <br/>
+
+    <label for="password">Password: </label>
+    <input id="password" type="password" name="password" th:field="*{password}"/>
+    <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span>
+    <br/>
+
+    <label for="confirm">Confirm password: </label>
+    <input id="confirm" type="password" name="confirm" th:field="*{confirmPassword}"/>
+    <span class="validationError" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Confirm password error</span>
+    <br/>
+
+    <label for="fullName">Full name: </label>
+    <input id="fullName" type="text" name="fullName" th:field="*{fullName}"/>
+    <br/>
+
+    <label for="street">Street: </label>
+    <input id="street" type="text" name="street" th:field="*{street}"/>
+    <br/>
+
+    <label for="city">City: </label>
+    <input id="city" accept="" type="text" name="city" th:field="*{city}"/>
+    <br/>
+
+    <label for="state">State: </label>
+    <input id="state" type="text" name="state" th:field="*{state}"/>
+    <br/>
+
+    <label for="zip">Zip: </label>
+    <input id="zip" type="text" name="zip" th:field="*{zip}"/>
+    <br/>
+
+    <label for="phone">Phone: </label>
+    <input id="phone" type="text" name="phone" th:field="*{phone}"/>
+    <br/>
+
+    <input type="submit" value="Registration"/>
+</form>
+
+<div th:replace="fragments/general.html :: footer"></div>
+
+</body>
+</html>

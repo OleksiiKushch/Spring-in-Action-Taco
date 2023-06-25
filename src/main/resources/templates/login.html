@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/general.html :: headerfiles"></th:block>
+</head>
+<body>
+
+<div th:replace="fragments/general.html :: header"></div>
+
+<h1>Login</h1>
+
+<p>New here? Click <a th:href="@{/registration}">here</a> to registration.</p>
+
+<form id="loginFor" th:action="@{/login}" method="POST">
+
+    <label for="username">Username: </label>
+    <input id="username" type="text" name="username"/>
+    <br/>
+
+    <label for="password">Password: </label>
+    <input id="password" type="password" name="password"/>
+    <br/>
+
+    <input type="submit" value="Login"/>
+</form>
+
+<div th:replace="fragments/general.html :: footer"></div>
+
+</body>
+</html>

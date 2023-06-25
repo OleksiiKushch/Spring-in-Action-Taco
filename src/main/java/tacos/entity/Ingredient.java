@@ -1,15 +1,12 @@
-package tacos.model;
+package tacos.entity;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor (access = AccessLevel.PRIVATE, force = true)
 @Document (collection = "ingredients")
 public class Ingredient {
 

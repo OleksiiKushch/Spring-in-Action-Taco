@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import tacos.model.Ingredient;
+import tacos.entity.Ingredient;
 import tacos.repository.IngredientRepository;
 
 import java.util.Optional;
@@ -25,15 +25,15 @@ public class IngredientByIdConverterTest {
     @InjectMocks
     private IngredientByIdConverter ingredientByIdConverter;
     @Mock
-    private IngredientRepository ingredientRepo;
+    private IngredientRepository ingredientRepository;
 
     @Mock
     private Ingredient ingredient;
 
     @Before
     public void setUp() {
-        when(ingredientRepo.findById(EXIST_INGREDIENT_ID)).thenReturn(Optional.of(ingredient));
-        when(ingredientRepo.findById(NOT_EXIST_INGREDIENT_ID)).thenReturn(Optional.empty());
+        when(ingredientRepository.findById(EXIST_INGREDIENT_ID)).thenReturn(Optional.of(ingredient));
+        when(ingredientRepository.findById(NOT_EXIST_INGREDIENT_ID)).thenReturn(Optional.empty());
     }
 
     @Test
