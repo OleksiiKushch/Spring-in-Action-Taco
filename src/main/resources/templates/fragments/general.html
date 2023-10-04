@@ -17,6 +17,8 @@
     <img th:src="@{/images/TacoCloud.png}"/>
     <hr/>
     <form method="POST" th:action="@{/logout}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
         <input type="submit" value="Logout"/>
     </form>
     <hr/>

@@ -34,8 +34,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-
                 .authorizeRequests().antMatchers("/design", "/orders/**").access("hasRole('USER')")
                 .antMatchers("/", "/**").access("permitAll()")
 

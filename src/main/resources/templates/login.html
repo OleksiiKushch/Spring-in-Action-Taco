@@ -12,6 +12,7 @@
 <p>New here? Click <a th:href="@{/registration}">here</a> to registration.</p>
 
 <form id="loginFor" th:action="@{/login}" method="POST">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
     <label for="username">Username: </label>
     <input id="username" type="text" name="username"/>
