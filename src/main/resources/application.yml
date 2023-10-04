@@ -8,3 +8,10 @@ spring:
     mongodb:
       database: tacoclouddb
       auto-index-creation: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 4d8c259c82a9dd5ae8d4
+            client-secret: 818e83fce8a860a33eed27830a9d4cde0e971003

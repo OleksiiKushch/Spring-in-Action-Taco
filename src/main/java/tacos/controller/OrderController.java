@@ -1,6 +1,7 @@
 package tacos.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -15,10 +16,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import tacos.entity.TacoOrder;
 import tacos.entity.User;
 import tacos.repository.OrderRepository;
-import tacos.repository.UserRepository;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -27,12 +26,10 @@ import java.security.Principal;
 public class OrderController {
 
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository, UserRepository userRepository) {
+    public OrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
     }
 
     @ModelAttribute ("tacoOrder")
@@ -41,9 +38,8 @@ public class OrderController {
     }
 
     @ModelAttribute ("user")
-    public User getUser(Principal principal) {
-        String username = principal.getName();
-        return userRepository.findByUsername(username);
+    public User getUser(Authentication authentication) {
+        return (User) authentication.getPrincipal();
     }
 
     @GetMapping ("/current")

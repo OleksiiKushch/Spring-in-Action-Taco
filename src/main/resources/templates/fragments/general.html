@@ -16,6 +16,10 @@
 <header th:fragment="header">
     <img th:src="@{/images/TacoCloud.png}"/>
     <hr/>
+    <form method="POST" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+    <hr/>
 </header>
 
 <footer th:fragment="footer">
