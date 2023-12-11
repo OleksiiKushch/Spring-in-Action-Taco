@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,9 +18,9 @@ import tacos.entity.Ingredient.Type;
 import tacos.entity.Taco;
 import tacos.entity.TacoOrder;
 import tacos.entity.User;
-import tacos.repository.IngredientRepository;
-import tacos.repository.TacoRepository;
-import tacos.repository.UserRepository;
+import tacos.service.IngredientService;
+import tacos.service.TacoService;
+import tacos.service.UserService;
 
 import javax.validation.Valid;
 
@@ -31,20 +30,19 @@ import javax.validation.Valid;
 @SessionAttributes ("tacoOrder")
 public class DesignTacoController {
 
-    private final IngredientRepository ingredientRepo;
-    private final TacoRepository tacoRepository;
-    private final UserRepository userRepository;
+    private final IngredientService ingredientService;
+    private final TacoService tacoService;
+    private final UserService userService;
 
-    @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository tacoRepository, UserRepository userRepository) {
-        this.ingredientRepo = ingredientRepo;
-        this.tacoRepository = tacoRepository;
-        this.userRepository = userRepository;
+    public DesignTacoController(IngredientService ingredientService, TacoService tacoService, UserService userService) {
+        this.ingredientService = ingredientService;
+        this.tacoService = tacoService;
+        this.userService = userService;
     }
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepo.findAll();
+        List<Ingredient> ingredients = (List<Ingredient>) ingredientService.findAllIngredients();
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
@@ -64,7 +62,7 @@ public class DesignTacoController {
     @ModelAttribute ("user")
     public User getUser(Principal principal) {
         String username = principal.getName();
-        return userRepository.findByUsername(username);
+        return userService.findUserByUsername(username);
     }
 
     @GetMapping
@@ -78,7 +76,7 @@ public class DesignTacoController {
             return "design";
         }
 
-        tacoRepository.save(taco);
+        taco = tacoService.create(taco);
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";

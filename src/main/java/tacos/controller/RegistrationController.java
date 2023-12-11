@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tacos.entity.RegistrationForm;
 import tacos.entity.User;
-import tacos.repository.UserRepository;
+import tacos.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -23,11 +23,11 @@ import static tacos.constants.AppConstants.USERNAME;
 @RequestMapping ("/registration")
 public class RegistrationController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public RegistrationController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -54,13 +54,13 @@ public class RegistrationController {
         }
 
         User user = form.toUser(passwordEncoder);
-        userRepository.save(user);
+        user = userService.create(user);
         log.info("New user successfully saved: {}", user);
         return "redirect:/login";
     }
 
     private void advancedValidationUsernameField(RegistrationForm form, Errors errors) {
-        User existingUser = userRepository.findByUsername(form.getUsername());
+        User existingUser = userService.findUserByUsername(form.getUsername());
         if (Objects.nonNull(existingUser)) {
             errors.rejectValue(USERNAME, "user.already.exist",
                                "User with this username already exist");

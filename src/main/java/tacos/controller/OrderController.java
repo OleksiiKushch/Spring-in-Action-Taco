@@ -1,7 +1,5 @@
 package tacos.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -15,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.support.SessionStatus;
 import tacos.entity.TacoOrder;
 import tacos.entity.User;
-import tacos.repository.OrderRepository;
+import tacos.service.OrderService;
+import tacos.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -25,11 +25,12 @@ import javax.validation.Valid;
 @SessionAttributes ("tacoOrder")
 public class OrderController {
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
+    private final UserService userService;
 
-    @Autowired
-    public OrderController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderController(OrderService orderService, UserService userService) {
+        this.orderService = orderService;
+        this.userService = userService;
     }
 
     @ModelAttribute ("tacoOrder")
@@ -38,8 +39,9 @@ public class OrderController {
     }
 
     @ModelAttribute ("user")
-    public User getUser(Authentication authentication) {
-        return (User) authentication.getPrincipal();
+    public User getUser(Principal principal) {
+        String username = principal.getName();
+        return userService.findUserByUsername(username);
     }
 
     @GetMapping ("/current")
@@ -56,13 +58,14 @@ public class OrderController {
         }
 
         tacoOrder.setUser(user);
-        orderRepository.save(tacoOrder);
+        tacoOrder = orderService.create(tacoOrder);
         log.info("Order successfully saved and submitted: {}", tacoOrder);
         sessionStatus.setComplete();
 
         return "redirect:/";
     }
 
+    // TODO: refactor
     private void setSavedUserDataToOrder(User user, TacoOrder order) {
         if (order.getDeliveryName() == null) {
             order.setDeliveryName(user.getFullName());
