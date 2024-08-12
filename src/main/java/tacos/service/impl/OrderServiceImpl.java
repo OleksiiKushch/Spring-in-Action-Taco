@@ -5,6 +5,8 @@ import tacos.entity.TacoOrder;
 import tacos.repository.OrderRepository;
 import tacos.service.OrderService;
 
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -22,5 +24,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removeAllOrders() {
         orderRepository.deleteAll();
+    }
+
+    @Override
+    public List<TacoOrder> getAllOrders() {
+        return (List<TacoOrder>) orderRepository.findAll();
     }
 }

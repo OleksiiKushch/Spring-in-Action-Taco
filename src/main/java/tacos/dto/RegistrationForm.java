@@ -1,7 +1,8 @@
-package tacos.entity;
+package tacos.dto;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.Data;
+import tacos.entity.User;
 
 import javax.validation.constraints.Size;
 

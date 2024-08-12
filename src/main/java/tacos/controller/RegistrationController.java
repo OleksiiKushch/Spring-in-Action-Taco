@@ -1,6 +1,7 @@
 package tacos.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import tacos.entity.RegistrationForm;
+import tacos.dto.RegistrationForm;
 import tacos.entity.User;
 import tacos.service.UserService;
 
@@ -37,7 +38,10 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Authentication authentication) {
+        if (authentication != null) {
+            System.out.println(authentication.getAuthorities());
+        }
         return "registration";
     }
 
